@@ -200,7 +200,7 @@
 
 			$group = static::createAuthorFormElements($author, $sections, $context['errors']);
 
-			$context['form']->insertChildAt($context['form']->getNumberOfChildren() - 2, $group);
+			$context['primary']->insertChildAt($context['primary']->getNumberOfChildren() - 2, $group);
 		}
 
 
@@ -296,12 +296,6 @@
 
 			$label = Widget::Label(__('Allowed sections'));
 
-			$attributes = array(
-				'multiple' => 'multiple',
-				'class' => 'required',
-				'required' => 'required',
-			);
-
 			$authorCurrentSections = array_map(function ($section) {
 				return intval($section['section_id']);
 			}, static::fetch($author->get('id')));
@@ -316,6 +310,14 @@
 					$authorCurrentSections
 				), $section->get('name'));
 			}
+
+			$attributes = array(
+				'multiple' => 'multiple',
+				'class' => 'required',
+				'required' => 'required',
+				'size' => count($options)
+			);
+			
 			$select = Widget::Select('restr_section[sections][]', $options, $attributes);
 			$label->appendChild($select);
 
